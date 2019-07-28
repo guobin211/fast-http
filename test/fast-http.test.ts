@@ -1,4 +1,4 @@
-import DummyClass from '../src/fast-http'
+import DummyClass from '../src'
 
 /**
  * Dummy test
