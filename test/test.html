@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>xhr</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .btn{
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding-top: 100px">
+        <button type="button" class="btn btn-primary" onclick="get()">Get</button>
+        <button type="button" class="btn btn-secondary">Delete</button>
+        <button type="button" class="btn btn-success">Put</button>
+        <button type="button" class="btn btn-danger">Post</button>
+        <button type="button" class="btn btn-warning">Options</button>
+        <button type="button" class="btn btn-info">Head</button>
+        <button type="button" class="btn btn-dark">Fetch</button>
+    </div>
+    <script>
+
+        function xhr(method, body) {
+          const request = new XMLHttpRequest();
+          request.open(method, 'http://127.0.0.1:9001/root', true );
+          request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+          request.setRequestHeader('Token', '123456');
+          request.onreadystatechange = () => {
+            if (request.readyState === 4 && request.status === 200) {
+              console.log(request.response);
+            }
+          }
+          request.ontimeout = (ev) => {
+            console.log(ev)
+          }
+          request.onprogress = (ev) => {
+            console.log(ev)
+          }
+          request.onabort = (ev) => {
+            console.log(ev)
+          }
+          request.onerror = (err) => {
+            console.log(err)
+          }
+          request.send(body);
+        }
+
+
+        function get() {
+            xhr('get');
+        }
+
+        function del() {
+
+        }
+
+        function put() {
+
+        }
+        function post() {
+
+        }
+
+        function options() {
+
+        }
+        function head() {
+
+        }
+        function fetch() {
+
+        }
+    </script>
+</body>
+</html>
