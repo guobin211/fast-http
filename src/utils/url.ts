@@ -3,10 +3,11 @@
  *
  * @author GuoBin on 2019-07-27
  */
-import { isDate, isObject } from './util'
+import { isDate, isPlainObject } from './util'
 
 function encode(value: string): string {
-    return encodeURIComponent(value).replace(/%40/g, '@')
+    return encodeURIComponent(value)
+        .replace(/%40/g, '@')
         .replace(/%3A/gi, ':')
         .replace(/%24/g, '$')
         .replace(/%2C/gi, ',')
@@ -15,12 +16,17 @@ function encode(value: string): string {
         .replace(/%5D/gi, ']')
 }
 
+/**
+ * get QueryString
+ * @param url
+ * @param params
+ */
 export function buildUrl(url: string, params?: any) {
     if (!params) {
         return url
     }
     const parts: string[] = []
-    Object.keys(params).forEach((key) => {
+    Object.keys(params).forEach(key => {
         const value = params[key]
         if (value === null || value === 'undefined') {
             return
@@ -32,10 +38,10 @@ export function buildUrl(url: string, params?: any) {
         } else {
             res = [value]
         }
-        res.forEach((val) => {
+        res.forEach(val => {
             if (isDate(val)) {
                 val = val.toISOString()
-            } else if (isObject(val)) {
+            } else if (isPlainObject(val)) {
                 val = JSON.stringify(val)
             }
             parts.push(`${key}=${val}`)

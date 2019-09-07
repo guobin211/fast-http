@@ -1,6 +1,8 @@
 import { FastRequestConfig } from '../interface/Http'
+import { voidFunc } from '../interface/types'
+import { buildUrl } from '../utils/url'
 
-export default function xhr(config: FastRequestConfig, progressCallback?: Function): Promise<any> {
+export default function xhr(config: FastRequestConfig, progressCallback?: voidFunc): Promise<any> {
     return new Promise((resolve, reject) => {
         const { data = null, url, method = 'get' } = config
         const request: XMLHttpRequest = new XMLHttpRequest()
@@ -9,7 +11,7 @@ export default function xhr(config: FastRequestConfig, progressCallback?: Functi
          * @param ev
          */
         request.onprogress = (ev: ProgressEvent) => {
-            if (typeof progressCallback === 'function') {
+            if (progressCallback) {
                 progressCallback(ev)
             }
         }
@@ -18,6 +20,9 @@ export default function xhr(config: FastRequestConfig, progressCallback?: Functi
          */
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status >= 200 && request.status < 400) {
+                if (request.getResponseHeader('content-type') === '') {
+                    resolve(request.responseText)
+                }
                 resolve()
             } else {
                 reject()
@@ -36,7 +41,7 @@ export default function xhr(config: FastRequestConfig, progressCallback?: Functi
          * 超时
          */
         request.ontimeout = () => {}
-        request.open(method.toLocaleUpperCase(), url!, true)
-        request.send(data)
+        request.open(method.toLocaleUpperCase(), buildUrl(url!, config.params), true)
+        request.send('data')
     })
 }

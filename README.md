@@ -14,6 +14,12 @@ A TypeScript library of http easy and fast.
 
 ```bash
     npm install fast-http --save
+
+    import FastHttp from 'fast-http'
+
+    const fast = new FastHttp()
+
+    fast.get('/api', {params: {name: 'jack'}}).then()
 ```
 
 ### NPM scripts

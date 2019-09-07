@@ -32,3 +32,5 @@ export interface SearchParams {
 export interface HttpHeaders {
     [key: string]: string
 }
+
+export type voidFunc = (data: ProgressEvent) => void

@@ -3,26 +3,36 @@
  */
 import { FastPromise, FastRequestConfig, Http } from './interface/Http'
 import { Options } from './options'
+import xhr from './core/xhr'
+import { HttpMethods, SearchParams } from './interface/types'
 
 export default class FastHttp implements Http {
     private _defaultOptions: Options
-    constructor() {
-        this._defaultOptions = new Options()
+    constructor(options?: Options) {
+        this._defaultOptions = options ? options : {}
     }
 
     delete(): any {}
 
-    get(): any {}
+    get(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        const _config: any = {
+            url: url,
+            method: 'get',
+            params: config ? config.params : ''
+        }
+        console.log(_config)
+        return xhr(_config).then((res: any) => res as FastPromise)
+    }
 
     head(): any {}
 
     options(): any {}
 
-    patch<T = any>(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    patch(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
 
-    post<T = any>(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    post(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
 
-    put<T = any>(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    put(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
 
     request(config: FastRequestConfig, options?: Options): any {}
 }

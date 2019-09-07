@@ -23,15 +23,15 @@ export interface FastResponse<T = any> {
 export interface FastPromise<T = any> extends FastResponse<T> {}
 
 export interface Http {
-    request<T>(config: FastRequestConfig): FastPromise<T>
+    request<T>(config: FastRequestConfig): Promise<FastPromise>
 
-    get<T>(url: string, config?: FastRequestConfig, options?: Options): FastPromise<T>
-    delete<T>(url: string, config?: FastRequestConfig, options?: Options): FastPromise<T>
+    get<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
+    delete<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
 
-    post<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): FastPromise<T>
-    put<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): FastPromise<T>
-    patch<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): FastPromise<T>
+    post<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
+    put<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
+    patch<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
 
-    options<T>(url: string, config?: FastRequestConfig, options?: Options): FastPromise<T>
-    head<T>(url: string, config?: FastRequestConfig, options?: Options): FastPromise<T>
+    options<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
+    head<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
 }
