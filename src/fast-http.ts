@@ -4,7 +4,6 @@
 import { FastPromise, FastRequestConfig, Http } from './interface/Http'
 import { Options } from './options'
 import xhr from './core/xhr'
-import { HttpMethods, SearchParams } from './interface/types'
 
 export default class FastHttp implements Http {
     private _defaultOptions: Options
@@ -20,7 +19,6 @@ export default class FastHttp implements Http {
             method: 'get',
             params: config ? config.params : ''
         }
-        console.log(_config)
         return xhr(_config).then((res: any) => res as FastPromise)
     }
 

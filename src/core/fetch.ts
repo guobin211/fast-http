@@ -1,5 +1,8 @@
-export function fetch(url: string, options: any) {
+import { FastRequestConfig } from '../interface/Http'
+
+export function fetch(url: string, options?: FastRequestConfig) {
     return window.fetch(url, {
-        keepalive: true
+        keepalive: true,
+        method: options ? options.method : 'get'
     })
 }
