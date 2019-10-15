@@ -11,26 +11,121 @@ export default class FastHttp implements Http {
         this._defaultOptions = options ? options : {}
     }
 
-    delete(): any {}
-
-    get(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
-        const _config: any = {
-            url: url,
-            method: 'get',
-            params: config ? config.params : ''
+    delete(url: string, config?: FastRequestConfig): Promise<FastPromise> {
+        if (config) {
+            config.method = 'delete'
+        } else {
+            config = {
+                method: 'delete'
+            }
         }
-        return xhr(_config).then((res: any) => res as FastPromise)
+        return this.request(this._mergeConfig(url, config))
     }
 
-    head(): any {}
+    get(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        if (config) {
+            config.method = 'get'
+        } else {
+            config = {
+                method: 'get'
+            }
+        }
+        return this.request(this._mergeConfig(url, config, options))
+    }
 
-    options(): any {}
+    head(url: string, config?: FastRequestConfig): Promise<FastPromise> {
+        if (config) {
+            config.method = 'head'
+            config.data = null
+        } else {
+            config = {
+                method: 'head'
+            }
+        }
+        return this.request(this._mergeConfig(url, config))
+    }
 
-    patch(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    options(url: string, config?: FastRequestConfig): Promise<FastPromise> {
+        if (config) {
+            config.method = 'options'
+            config.data = null
+        } else {
+            config = {
+                method: 'options'
+            }
+        }
+        return this.request(this._mergeConfig(url, config))
+    }
 
-    post(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    patch(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        if (config) {
+            config.method = 'patch'
+        } else {
+            config = {
+                method: 'patch'
+            }
+        }
+        return this.request(this._mergeConfig(url, config, options))
+    }
 
-    put(url: string, data?: any, config?: FastRequestConfig, options?: Options): any {}
+    post(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        if (config) {
+            config.method = 'post'
+        } else {
+            config = {
+                method: 'post'
+            }
+        }
+        return this.request(this._mergeConfig(url, config, options))
+    }
 
-    request(config: FastRequestConfig, options?: Options): any {}
+    put(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        if (config) {
+            config.method = 'put'
+        } else {
+            config = {
+                method: 'put'
+            }
+        }
+        return this.request(this._mergeConfig(url, config, options))
+    }
+
+    request(config: FastRequestConfig, options?: Options): Promise<FastPromise> {
+        return xhr(config).then((res: any) => res as FastPromise)
+    }
+
+    private _mergeConfig(url: string, config?: FastRequestConfig, options?: Options): FastRequestConfig {
+        const res: FastRequestConfig = Object.create(null)
+        if (options) {
+            if (config) {
+                res.url = (options as any).host + config.url + url
+                res.method = config.method
+                res.data = config.data
+                res.params = config.params
+                res.responseType = config.responseType
+                const header = JSON.parse('{}')
+                Object.assign(header, options.header, config.headers)
+                res.headers = header
+            } else {
+                res.url = (options as any).host + url
+                res.method = 'get'
+                res.headers = options.header
+            }
+        } else {
+            if (config) {
+                res.url = config.url + url
+                res.method = config.method
+                res.data = config.data
+                res.params = config.params
+                res.responseType = config.responseType
+                const header = JSON.parse('{}')
+                Object.assign(header, config.headers)
+                res.headers = header
+            } else {
+                res.url = url
+                res.method = 'get'
+            }
+        }
+        return res as FastRequestConfig
+    }
 }

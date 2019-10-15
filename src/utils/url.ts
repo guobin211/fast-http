@@ -28,7 +28,7 @@ export function buildUrl(url: string, params?: any) {
     const parts: string[] = []
     Object.keys(params).forEach(key => {
         const value = params[key]
-        if (value === null || value === 'undefined') {
+        if (value === null || value === 'undefined' || value === undefined) {
             return
         }
         let res = []

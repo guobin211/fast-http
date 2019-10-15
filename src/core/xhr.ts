@@ -4,8 +4,16 @@ import { buildUrl } from '../utils/url'
 
 export default function xhr(config: FastRequestConfig, progressCallback?: voidFunc): Promise<any> {
     return new Promise((resolve, reject) => {
-        const { data = null, url, method = 'get' } = config
+        const { data = null, url, method = 'get', headers } = config
         const request: XMLHttpRequest = new XMLHttpRequest()
+        request.withCredentials = true
+        for (const key in headers) {
+            if (typeof headers[key] === 'string') {
+                request.setRequestHeader(key, headers[key])
+            } else {
+                throw new Error(`config.headers: ${key} must be string`)
+            }
+        }
         /**
          * xhr进度
          * @param ev
@@ -36,12 +44,16 @@ export default function xhr(config: FastRequestConfig, progressCallback?: voidFu
          * 错误
          * @param err
          */
-        request.onerror = (err: ProgressEvent) => {}
+        request.onerror = (err: ProgressEvent) => {
+            reject(err)
+        }
         /**
          * 超时
          */
-        request.ontimeout = () => {}
-        request.open(method.toLocaleUpperCase(), buildUrl(url!, config.params), true)
-        request.send('data')
+        request.ontimeout = () => {
+            reject('请求超时')
+        }
+        request.open(method.toLocaleUpperCase(), buildUrl(url + '', config.params), true)
+        request.send(data)
     })
 }
