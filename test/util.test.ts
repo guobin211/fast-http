@@ -20,21 +20,11 @@ describe('util test', () => {
             new Date(),
             String('1'),
             '',
+            10,
             new Map(),
             new Set()
         ]
-        const exp: boolean[] = [
-            true,
-            true,
-            true,
-            true,
-            false,
-            false,
-            false,
-            false,
-            false,
-            false
-        ]
+        const exp: boolean[] = [true, true, true, true, false, false, false, false, false, false, false]
         for (let i = 0; i < examples.length; i++) {
             const example = examples[i]
             console.log(i, isPlainObject(example))
@@ -53,7 +43,7 @@ describe('util test', () => {
             {
                 host: '11',
                 header: { 'content-type': 'application/json;charset=utf8' },
-                mode: 'cors',
+                mode: 'cors'
             }
         ]
         const exp: Options[] = [
