@@ -1,7 +1,7 @@
-import { buildUrl } from '../src/utils/url'
+import { buildUrl, encode } from '../src/utils/url'
 
-describe('buildUrl test', () => {
-    it('buildUrl should be return string', () => {
+describe('url test', () => {
+    it('buildUrl() should be string', () => {
         const url = '/post'
         const params1 = { name: 'jack' }
         const params2 = { name: '?%' }
@@ -23,5 +23,18 @@ describe('buildUrl test', () => {
         expect(buildUrl(url, params8)).toEqual('/post')
         expect(buildUrl(url, params9)).toEqual('/post?name={"age":22}')
         expect(buildUrl(url, params10)).toEqual('/post?name=jack&age=22&sex=true')
+    })
+
+    it('encode() should be string', function() {
+        const strs = ['`~!@#$%^&*()_+-={}|":?><,./;\'[]\\', 1234567890,'1234567890qwertyuioplkjhgfdsazxcvbnm'];
+        const res: string[] = [
+            "%60~!@%23$%25%5E%26*()_%2B-%3D%7B%7D%7C%22:%3F%3E%3C,.%2F%3B'[]%5C",
+            "1234567890",
+            "1234567890qwertyuioplkjhgfdsazxcvbnm"
+        ];
+        for (let i = 0; i < strs.length; i++) {
+            const str = strs[i] + ''
+            expect(encode(str)).toEqual(res[i])
+        }
     })
 })

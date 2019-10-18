@@ -5,7 +5,7 @@
  */
 import { isDate, isPlainObject } from './util'
 
-function encode(value: string): string {
+export function encode(value: string): string {
     return encodeURIComponent(value)
         .replace(/%40/g, '@')
         .replace(/%3A/gi, ':')
@@ -55,5 +55,5 @@ export function buildUrl(url: string, params?: any) {
         }
         url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams
     }
-    return url
+    return encode(url)
 }

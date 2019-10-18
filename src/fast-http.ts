@@ -7,6 +7,7 @@ import xhr from './core/xhr'
 
 export default class FastHttp implements Http {
     private _defaultOptions: Options
+
     constructor(options?: Options) {
         this._defaultOptions = options ? options : {}
     }
@@ -76,6 +77,7 @@ export default class FastHttp implements Http {
                 method: 'post'
             }
         }
+        config.data = data ? data : null
         return this.request(this._mergeConfig(url, config, options))
     }
 
@@ -91,14 +93,14 @@ export default class FastHttp implements Http {
     }
 
     request(config: FastRequestConfig, options?: Options): Promise<FastPromise> {
-        return xhr(config).then((res: any) => res as FastPromise)
+        return <Promise<FastPromise>>xhr(config)
     }
 
     private _mergeConfig(url: string, config?: FastRequestConfig, options?: Options): FastRequestConfig {
         const res: FastRequestConfig = Object.create(null)
         if (options) {
             if (config) {
-                res.url = (options as any).host + config.url + url
+                res.url = options.host ? config.url ? options.host + config.url + url : options.host + url: url
                 res.method = config.method
                 res.data = config.data
                 res.params = config.params
@@ -113,7 +115,7 @@ export default class FastHttp implements Http {
             }
         } else {
             if (config) {
-                res.url = config.url + url
+                res.url = config.url ? config.url + url : url
                 res.method = config.method
                 res.data = config.data
                 res.params = config.params

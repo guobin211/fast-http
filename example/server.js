@@ -57,6 +57,7 @@ function registerBaseRouter () {
     })
 
     router.post('/example/post', function(req, res) {
+        console.log(req.body)
         res.json(req.body)
     })
 

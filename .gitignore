@@ -91,3 +91,5 @@ typings/
 .dynamodb/
 node_modules
 .rpt2_cache
+dist
+docs
