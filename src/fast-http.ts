@@ -12,12 +12,14 @@ export default class FastHttp implements Http {
         this._defaultOptions = options ? options : {}
     }
 
-    delete(url: string, config?: FastRequestConfig): Promise<FastPromise> {
+    delete(url: string, data?: any, config?: FastRequestConfig): Promise<FastPromise> {
         if (config) {
             config.method = 'delete'
+            config.data ? (data ? Object.assign(config.data, data) : data) : null
         } else {
             config = {
-                method: 'delete'
+                method: 'delete',
+                data: data ? data : null
             }
         }
         return this.request(this._mergeConfig(url, config))
@@ -89,6 +91,9 @@ export default class FastHttp implements Http {
                 method: 'put'
             }
         }
+        if (data) {
+            config.data = data
+        }
         return this.request(this._mergeConfig(url, config, options))
     }
 
@@ -100,7 +105,7 @@ export default class FastHttp implements Http {
         const res: FastRequestConfig = Object.create(null)
         if (options) {
             if (config) {
-                res.url = options.host ? config.url ? options.host + config.url + url : options.host + url: url
+                res.url = options.host ? (config.url ? options.host + config.url + url : options.host + url) : url
                 res.method = config.method
                 res.data = config.data
                 res.params = config.params

@@ -26,7 +26,7 @@ export interface Http {
     request<T>(config: FastRequestConfig): Promise<FastPromise>
 
     get<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
-    delete<T>(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
+    delete<T>(url: string, data: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
 
     post<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
     put<T>(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise>
