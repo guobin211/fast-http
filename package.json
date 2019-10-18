@@ -126,9 +126,7 @@
         "typedoc": "^0.15.0",
         "typescript": "^3.0.3",
         "webpack-dev-middleware": "^3.7.0",
-        "webpack-hot-middleware": "^2.25.0"
-    },
-    "dependencies": {
+        "webpack-hot-middleware": "^2.25.0",
         "webpack": "^4.39.3"
     }
 }
