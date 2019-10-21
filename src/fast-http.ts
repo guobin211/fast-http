@@ -15,14 +15,18 @@ export default class FastHttp implements Http {
     delete(url: string, data?: any, config?: FastRequestConfig): Promise<FastPromise> {
         if (config) {
             config.method = 'delete'
-            config.data ? (data ? Object.assign(config.data, data) : data) : null
+            if (config.data && data) {
+                Object.assign(config.data, data)
+            } else if (data) {
+                config.data = data
+            }
         } else {
             config = {
                 method: 'delete',
                 data: data ? data : null
             }
         }
-        return this.request(this._mergeConfig(url, config))
+        return this.request(FastHttp._mergeConfig(url, config))
     }
 
     get(url: string, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
@@ -33,7 +37,7 @@ export default class FastHttp implements Http {
                 method: 'get'
             }
         }
-        return this.request(this._mergeConfig(url, config, options))
+        return this.request(FastHttp._mergeConfig(url, config, options))
     }
 
     head(url: string, config?: FastRequestConfig): Promise<FastPromise> {
@@ -45,7 +49,7 @@ export default class FastHttp implements Http {
                 method: 'head'
             }
         }
-        return this.request(this._mergeConfig(url, config))
+        return this.request(FastHttp._mergeConfig(url, config))
     }
 
     options(url: string, config?: FastRequestConfig): Promise<FastPromise> {
@@ -57,7 +61,7 @@ export default class FastHttp implements Http {
                 method: 'options'
             }
         }
-        return this.request(this._mergeConfig(url, config))
+        return this.request(FastHttp._mergeConfig(url, config))
     }
 
     patch(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
@@ -68,7 +72,7 @@ export default class FastHttp implements Http {
                 method: 'patch'
             }
         }
-        return this.request(this._mergeConfig(url, config, options))
+        return this.request(FastHttp._mergeConfig(url, config, options))
     }
 
     post(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
@@ -80,7 +84,7 @@ export default class FastHttp implements Http {
             }
         }
         config.data = data ? data : null
-        return this.request(this._mergeConfig(url, config, options))
+        return this.request(FastHttp._mergeConfig(url, config, options))
     }
 
     put(url: string, data?: any, config?: FastRequestConfig, options?: Options): Promise<FastPromise> {
@@ -94,14 +98,14 @@ export default class FastHttp implements Http {
         if (data) {
             config.data = data
         }
-        return this.request(this._mergeConfig(url, config, options))
+        return this.request(FastHttp._mergeConfig(url, config, options))
     }
 
     request(config: FastRequestConfig, options?: Options): Promise<FastPromise> {
-        return <Promise<FastPromise>>xhr(config)
+        return xhr(config) as Promise<FastPromise>
     }
 
-    private _mergeConfig(url: string, config?: FastRequestConfig, options?: Options): FastRequestConfig {
+    private static _mergeConfig(url: string, config?: FastRequestConfig, options?: Options): FastRequestConfig {
         const res: FastRequestConfig = Object.create(null)
         if (options) {
             if (config) {
