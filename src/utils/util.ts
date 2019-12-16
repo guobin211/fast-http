@@ -28,14 +28,11 @@ export function mergeOptions(prev: Options, adds: Options): Options {
 
 export function extend<T, U>(first: T, second: U): T & U {
     let result = {} as T & U
-    for (let id in first) {
+    for (const id in first) {
         ;(result as any)[id] = (first as any)[id]
     }
-    for (let id in second) {
-        // @ts-ignore
-        if (!result.hasOwnProperty(id)) {
-            ;(result as any)[id] = (second as any)[id]
-        }
+    for (const id in second) {
+        ;(result as any)[id] = (second as any)[id]
     }
     return result
 }
